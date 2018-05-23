@@ -1,0 +1,23 @@
+
+function init_body(){
+  document.getElementById('load_gif').style.display='none';
+  document.getElementById('load_body').style.display='inline-block';
+  if (document.getElementsByClassName('accordian').length>0){
+    init_accordian(document.getElementsByClassName('accordian')[0],'section','head','body',.05,4);
+  }
+  if (document.getElementsByClassName('mem').length>0 && window.innerWidth<875){
+    //init_accordian('table','cell table_header','sub_table',.05);
+    init_accordian(document.getElementsByClassName('table-container')[0],'table','cell table_header','sub_table',.05,3);
+  }
+  if (document.getElementsByClassName('rewards').length>0){
+   	init_accordian(document.getElementsByClassName('drop')[0],'section','head','table-wrap',.3,1);
+  }
+  if (document.getElementById('productSelector')!=null){
+    init_product_variant_select();
+  }
+  if (document.getElementsByClassName('flexslider').length>0){
+    document.getElementsByClassName('flexslider')[0].style.height="500px";
+    document.getElementsByClassName('flexslider')[1].style.height="500px";
+  }
+  
+}

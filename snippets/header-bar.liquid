@@ -1,0 +1,50 @@
+<div class="header-bar">
+
+    <div class="large--display-table">
+      <div class="header-bar large--display-table-cell">
+        <div class="header-bar__module">
+          <a href="/cart" class="cart-toggle">
+            <img src="{{ 'download-arrow.png' | asset_url }}" alt="Download Arrow" style="width:17px;margin-bottom:-7px;"/>
+            {{ 'layout.cart.title' | t }}
+            <span class="cart-count header-bar__cart-count{% if cart.item_count == 0 %} hidden-count{% endif %}">{{ cart.item_count }}</span>
+          </a>
+        </div>
+
+        {% if shop.customer_accounts_enabled %}
+          <span class="header-bar__sep" aria-hidden="true">|</span>
+          <ul class="header-bar__module header-bar__module--list">
+            {% if customer %}
+              <li>
+                <a href="/pages/my-rewards">{{ 'layout.customer.account' | t }}</a>
+              </li>
+              <li>
+                {{ 'layout.customer.log_out' | t | customer_logout_link }}
+              </li>
+            {% else %}
+              <li>
+                {{ 'layout.customer.log_in' | t | customer_login_link }}
+              </li>
+              <li>
+                {{ 'layout.customer.create_account' | t | customer_register_link }}
+              </li>
+            {% endif %}
+          </ul>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+  {% include 'mobile-nav' %}
+  <div class="wrapper large--hide">
+    <button type="button" class="mobile-nav-trigger" id="MobileNavTrigger">
+      <span class="icon icon-hamburger" aria-hidden="true"></span>
+      {{ 'layout.navigation.menu' | t }}
+    </button>
+    <a href="/cart" class="cart-toggle mobile-cart-toggle">
+      <span class="icon icon-cart header-bar__cart-icon" aria-hidden="true"></span>
+      {{ 'layout.cart.title' | t }} <span class="cart-count{% if cart.item_count == 0 %} hidden-count{% endif %}">{{ cart.item_count }}</span>
+    </a>
+
+  
+</div>
+

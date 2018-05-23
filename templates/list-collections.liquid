@@ -1,0 +1,37 @@
+{% comment %}
+  Loop through each collection, except 'frontpage'
+{% endcomment %}
+
+<header class="section-header">
+  <h1 class="section-header__title">{{ 'collections.general.title' | t }}</h1>
+</header>
+
+<div class="grid-uniform">
+  {% for collection in collections %}
+    {% if collection.description == 'admin' %}
+  	{% else %}
+      {% assign collection_item_width = 'medium-down--one-third large--one-quarter' %}
+      {% assign featured = collection.handle %}
+      {% include 'collection-grid-item' %}
+    {% endif %}
+  {% endfor %}
+</div>
+{% if customer %}
+  {% for tag in customer.tags %}
+    {% if tag == 'admin' %}
+      {% capture admin_tag %}true{% endcapture %}
+	{% endif %}
+  {% endfor %}
+{% endif %}
+{% if admin_tag == 'true' %}
+  <h1> Admin </h1>
+  <div class="grid-uniform">
+    {% for collection in collections %}
+      {% if collection.description == 'admin' %}
+        {% assign collection_item_width = 'medium-down--one-third large--one-quarter' %}
+        {% assign featured = collection.handle %}
+        {% include 'collection-grid-item' %}
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}

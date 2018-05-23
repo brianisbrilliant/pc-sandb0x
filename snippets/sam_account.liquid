@@ -1,0 +1,38 @@
+
+{% if customer.tags contains 'Club' %}
+	<p>Congrats, you're part of <b>Project Content</b>, valid until
+	<span class="sam-membership-expiry-date" style="font-weight: bold;">loading...</span>
+	</p>
+
+{% endif %}
+{% if customer.tags == blank %}
+
+{% else %}
+	<span class="sam-current-benefits" style="font-weight: bold;">loading...</span>
+	{% include 'sam_cart_benefits' %}
+{% endif %}
+<br/>
+<span style="position:relative;top:-30px;">Each custom content credit is valid for a single piece of custom content. We will need some general information to ensure we create something that will accomplish your goals and Engage your Audience. </span>
+
+<br>
+<h1>How to get Credits</h1>
+
+<h3>Subscribe to a monthly membership</h3>
+We have three membership plans that offer 1, 2, and an unlimited amount of custom content credits per month. 
+Don't want to wait? Contact us to make a credit advance and recieve all your credits for the year up front.
+<br><br>
+
+<h3>Purchase Credits Individually</h3>
+If you are already a member of Project Content additional CCC can be purchased for $50 each. Non-members can purchase credits for $100 each. 
+<br><br>
+
+<h3>Refer a Friend</h3>
+Get <b>3 Custom Content Credits</b> for every referral that that signs up for a monthly membership.
+<br>
+Your referral link:
+{% if customer %}
+	&nbsp; <input type="text" value="http://{{shop.domain}}/?samr={{customer.id}}" style="display: inline-block; width: 36em; vertical-align: middle; margin-top: 15px;">
+{% else %}
+	<a href="/account/register">Create an account</a>  to get your referral link
+{% endif %}
+

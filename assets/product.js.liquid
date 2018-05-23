@@ -1,0 +1,74 @@
+function link_gifs() {
+  var productPhotos=document.getElementById('ProductPhoto')
+  var photos=document.getElementsByClassName('ProductPhotoThumbs')
+  for (var i=0;i<photos.length;i++){
+    var img=document.createElement('img')
+    var src=photos[i].src;
+    src=src.slice(src.indexOf('products/')+9,src.indexOf('_large'));
+    src="http://project-content.nextledsigns.com/content/gifs/".concat(src,".gif")
+    img.src=src;
+    if (i+1!=photos.length){
+    	productPhotos.insertBefore(img, photos[i+1])
+    }
+    else {
+      productPhotos.appendChild(img)
+    }
+  }
+  var productPhotos=document.getElementById('ProductThumbs')
+  var photos=document.getElementsByClassName('ProductThumbsThumbs')
+  for (var i=0;i<photos.length;i++){
+    var img=document.createElement('img')
+    var src=photos[i].src;
+    src=src.slice(src.indexOf('products/')+9,src.indexOf('_compact'));
+    src="http://project-content.nextledsigns.com/content/gifs/".concat(src,".gif")
+    img.src=src;
+    var li=document.createElement('li')
+    li.className="grid__item large--one-third medium-down--one-third";
+    li.appendChild(img);
+    if (i+1!=photos.length){
+    	productPhotos.insertBefore(li, photos[i+1].parentNode)
+    }
+    else {
+      productPhotos.appendChild(li)
+    }
+  }
+  for(let i=0;i<productPhotos.children.length;i++) {
+    productPhotos.children[i].children[0].onclick=function(){select_thumb(i)};
+  }
+}
+
+function init_product_variant_select(){
+  link_gifs();
+  product_thumbs=document.getElementsByClassName('grid__item large--one-third medium-down--one-third');
+  product_photos=document.getElementById('ProductPhoto').children
+  select_variant(0);
+  document.getElementById('productSelector').onchange=function(){select_variant(selected_num(this))}
+}
+
+function select_variant(num){
+  for(var i=0;i<product_thumbs.length;i++){
+  	product_thumbs[i].style.display="none";
+  } 
+  product_thumbs[num*2].style.display='inline-block';
+  product_thumbs[num*2+1].style.display='inline-block';
+  select_thumb(num*2+1);
+}
+
+function select_thumb(num) {
+  for(var i=0;i<product_photos.length;i++){
+  	product_photos[i].style.display="none";
+  } 
+ product_photos[num].style.display='inline-block';
+}
+
+function selected_num(node){
+  var val=node.value;
+  var childs=node.children;
+  var num;
+  for (var i=0;i<childs.length;i++){
+    if (val==childs[i].value){
+      num=i;
+    }
+  }
+  return num;
+}

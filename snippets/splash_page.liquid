@@ -1,0 +1,101 @@
+
+<!--Splash Page Code -->
+
+<style>
+  /**************Splash Page****************/
+
+#splash {
+  min-width:100vw;
+  background-color:#000;
+  min-height:100vh;
+  height:100%;
+  position:relative;
+  display:none; 
+}
+
+#exit {
+  background:url('../images/splash_page/exit_x.png');
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+  width:10px;
+  height:10px;
+  position:absolute;
+  right:10px;
+  top:10px;
+  margin-left:585px;
+  cursor:pointer;
+  z-index: 1;
+}
+
+#exit:hover {
+  background:url('../images/splash_page/exit_x_hover.png');
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+}
+
+#splash_container {
+  display:flex;
+  width:100vw;
+  height:79vw;
+  max-height:100vh;
+  max-width:126vh;
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+  justify-content:center;
+  align-items:center;
+
+}
+
+#splash_video {
+  width:100%;
+  height:100%;
+  max-width:884px;
+  max-height:700px;
+  bottom:0px;
+}
+
+#exit_button {
+  background:url('http://www.nextledsigns.com/wp-content/themes/identiq/images/splash_page/exit_x.png');
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  margin-left: 585px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#exit_button:hover {
+  background:url('http://www.nextledsigns.com/wp-content/themes/identiq/images/splash_page/exit_x_hover.png');
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+}
+
+</style>
+<script type="text/javascript" >
+  function splash1_page(){
+  document.getElementById('home').style.display='none';
+}
+
+function splash_exit(){
+  document.getElementById('splash').style.display='none';
+  document.getElementById('home').style.display='block';
+}
+  
+</script>
+
+<div id="splash">
+  <div id="exit" onclick="splash_exit()">
+  </div>
+  <div id="splash_container">
+    <div id="splash_image">
+    </div>
+  </div>
+  <div id="exit_button" onclick="splash_exit()">
+  </div>
+</div>

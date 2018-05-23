@@ -1,0 +1,90 @@
+  function init_accordian(_accordian,_section,_head,_body,anim_time,num_open){
+    var heads=[];
+    var bodies=[];
+    var heights=[];
+	var open=[];
+    var sections=_accordian.getElementsByClassName(_section);
+    accordian=[[],[],[],[],anim_time,[],num_open];
+    accordian[0]=sections;
+    accordian[1]=heads;
+    accordian[2]=bodies;
+    accordian[3]=heights;
+	accordian[5]=open;
+    for(i=0;i<sections.length;i++){
+      head=sections[i].getElementsByClassName(_head)[0];
+      body=sections[i].getElementsByClassName(_body)[0];
+      var section=sections[i];
+      heads.push(head);
+      bodies.push(body);
+      style = window.getComputedStyle(body, null);
+      str=style.getPropertyValue("height")
+      heights.push(str.substring(0,str.indexOf('p')));
+      body.style.height="0px"
+      body.style.display="none"
+      section.style.overflow="hidden";
+      head.addEventListener("click", function(){
+        accordian=toggle_sec(this,accordian);
+      });
+    }
+    return accordian;
+  }
+   
+  function toggle_sec(node,accordian){
+    for(i=0;i<accordian[0].length;i++){
+      if (accordian[1][i]==node){
+        num=i;
+      }
+    }
+    if (accordian[2][num].style.height=="0px"){
+      accordian[2][num].style.display="block";
+      accordian=show(num,0,accordian);
+      if (accordian.length==7){
+        if (accordian[5].push(num)>accordian[6]){
+         num2=accordian[5].splice(0,1)[0];
+         hide(num2,accordian[3][num2],accordian);
+        }
+      }
+    }
+    else if (accordian[2][num].style.height==accordian[3][num]+"px"){
+      accordian=hide(num,accordian[3][num],accordian);
+      if (accordian.length==7){
+         accordian[5].splice(accordian[5].indexOf(num),1);
+        
+      }
+    }
+    else {
+      accordian[2][num].style.display="none";
+      accordian[2][num].style.height="0px";
+    }
+    return accordian
+  }
+  
+  function show(num,initial,accordian){
+    num2=initial+accordian[3][num]/(accordian[4]*40);
+    accordian[2][num].style.height=num2+'px';
+    str=accordian[2][num].style.height;
+    height=str.substring(0,str.indexOf('p'));
+    if (parseFloat(height)<parseFloat(accordian[3][num])){
+      setTimeout(function(){show(num,num2,accordian)},25)
+    }
+    return accordian;
+  }
+  
+  function hide(num,initial,accordian){
+    num2=initial-accordian[3][num]/(accordian[4]*40);
+    if (initial>accordian[3][num]/(accordian[4]*40)){
+      accordian[2][num].style.height=num2+'px';
+    }
+    else 
+    str=accordian[2][num].style.height;
+    height=str.substring(0,str.indexOf('p'));
+    if (initial>accordian[3][num]/(accordian[4]*20)){
+      setTimeout(function(){hide(num,num2,accordian)},25)
+    }
+    else {
+      accordian[2][num].style.height="0px";
+      accordian[2][num].style.display="none";
+      
+    }
+    return accordian;
+  }

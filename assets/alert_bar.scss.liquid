@@ -1,0 +1,19 @@
+.alert_bar {
+  background:#F96060;
+  height:40px;
+  justify-content:center;
+  align-items:center;
+  font-family:proxima-nova;
+  color:#fff;
+  font-weight:700;
+  {% if settings['alert_bar'] %}
+  	display:flex;
+  {% else %}
+  display:none;
+  {% endif%}
+}
+
+.alert_bar a {
+  width:100%;
+  height:100%;
+}

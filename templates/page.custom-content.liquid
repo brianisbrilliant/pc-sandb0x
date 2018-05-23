@@ -1,0 +1,141 @@
+
+<div class="rte">
+  <script type="text/javascript"src="{{ "custom_content.js" | asset_url }}" ></script>
+  <form id="mail_action" enctype="multipart/form-data" action="https://project-content.nextledsigns.com/custom_content_mail.php" method="post">
+    <input type="hidden" value="{{ customer.id }}" name="id"/>
+  <div style="display:flex;justify-content:center">
+  <div class="cstm">
+    <div class="row">
+      <div class="block header">
+      	Content Request
+      </div>
+    </div>
+    <div class="row">
+      <div class="block">
+        <div class="block_label">
+          Content Purpose
+        </div>
+        <div class="block_content text_input">
+          <input name="purpose">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="block  flex_3">
+        <div class="block_label">
+          Color Scheme
+        </div>
+        <div class="block_content text_input">
+          <input name="scheme">
+        </div>
+      </div>
+      <div class="block">
+        <div class="block_label">
+          Pixel Matrix
+        </div>
+        <div class="block_content text_input">
+          <input name="matrix">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="block">
+        <div class="block_label">
+          Email
+        </div>
+        <div class="block_content text_input">
+          <input name="email">
+        </div>
+      </div>
+      <div class="block">
+        <div class="block_label">
+          Phone
+        </div>
+        <div class="block_content text_input">
+          <input name="phone">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="block">
+        <div class="block_label">
+          Message -AD Copy and/or description
+        </div>
+        <div class="block_content textarea_input">
+          <textarea name="wording"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="block">
+        <div class="block_label">
+          Image Attachments
+        </div>
+        <div class="row">
+          <input type="file" name="images[]" onchange="file_upload_add(this)" value="" multiple="multiple"/>
+          <input type="button" class="btn" onclick="file_upload_delete(this)" value="Delete" style="margin: 0 0 1em"/>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="min-height: 144px;">
+      <div class="block">
+        <div class="block_label animation_style">
+          Animation Speed
+        </div>
+        <div class="block_content animation_style">
+          <div class="block one">
+            <input type="radio" name="animation_speed" id="anim_1" value="slow"/>
+            <label for="anim_1"></label>
+            <div class="block_label">
+              Slow
+            </div>
+          </div> 
+          <div class="block two">
+            <input type="radio" name="animation_speed" id="anim_2" value="fast"/>
+            <label for="anim_2"></label>
+            <div class="block_label">
+              Fast
+            </div>
+          </div> 
+        </div>
+      </div>
+      <div class="block vr">
+        
+      </div>
+      <div class="block">
+        <div class="block_label animation_style">
+          Animation Style
+        </div>
+        <div class="block_content animation_style">
+          <div class="block three">
+            <input type="radio" name="animation_style" id="anim_3" value="simple"/>
+            <label for="anim_3"></label>
+            <div class="block_label">
+              Simple
+            </div>
+          </div> 
+          <div class="block four">
+            <input type="radio" name="animation_style" id="anim_4" value="flashy"/>
+            <label for="anim_4"></label>
+            <div class="block_label">
+              Flashy
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="block" style="display: flex;justify-content: center;align-items: center;">
+        <div class="block_content submit" onclick="submit_form()">
+          Submit
+        </div>
+        <script type="text/javascript">
+          function submit_form(){
+            document.getElementById('mail_action').submit();
+          }
+        </script>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>

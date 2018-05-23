@@ -1,0 +1,160 @@
+<div class="dwn_q">
+  <div class="header">
+    <div class="title">Download Queue</div>
+    <div class="cont_shopping"><a href="https://project-content.com/collections">Continue Shopping</a></div>
+  </div>
+  <div class="que">
+  {% for item in cart.items %}
+    {% for tag in item.product.tags %}
+    	{% if  tag == "Presto" %}
+       	  {% capture customizer %}true{% endcapture %}
+     	{% endif %}
+	{% endfor %}
+{% if customizer == 'true' %}
+   <form action="https://project-content.nextledsigns.com/template-server/resources/template_selector.php" method="post" >
+{% else %}
+  <form action="https://project-content.nextledsigns.com/resources/gen_vid.php" method="post" >
+{% endif %}
+    <div class="download_item">  
+      <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" data-id="{{ item.id }}" class="x_btn">
+      </a>
+      <div class="item_pic">
+        {% if item.variant.title contains 'Default' %}
+        	<img src="{{ item | img_url: 'large' }}" alt="{{ item.title | escape }}">
+        	{% else %}
+        	{% assign count = 0 %}
+        	{% for variant in item.product.variants %}
+        	{% if item.variant.id == variant.id %}
+       		<img src="{{ item.product.images[count] | img_url: 'large' }}" alt="{{ item.title | escape }}">
+        	{% endif %}
+            {% assign count = count | plus: 2 %}
+            {% endfor %}
+      {% endif %}
+      </div>
+      <div class="item_title">
+        <div>
+        <div class="title_label">
+          Content Title
+        </div>
+        {{ item.product.title }}
+        
+        </div>
+      </div>
+      <div class="item_matrix">
+        <input type="hidden" class="cart_download_size" value="512" min="26" max="1920" name="width" step="2" placeholder="Width" required="required"/>
+        <span></span>
+        <input type="hidden" class="cart_download_size" value="256" min="26" max="1920" name="height" step="2" placeholder="Height" required="required"/>
+        Size: <select style="margin:0px;">
+        <option>512x256</option>
+        </select>
+      </div>
+      <div class="item_ext">
+        <select name="file_ext" class="file_ext">
+          <option value=".mp4" selected="selected">.mp4</option>
+          <option value=".mpg" >.mpg</option>
+          <option value=".avi" >.avi</option>
+          {% if customizer == 'true' %}
+          {% else %}
+          <option value=".jpg" >.jpg</option>
+          {%endif%}
+        </select>
+        <input type="hidden" name="mode"/>
+        <input type="hidden" name="handle" value="{{item.variant.sku}}" />
+        <input type="hidden" name="id" value="{{ customer.id }}" />
+      </div>
+      {% if customer %}
+      	{% if customizer == 'true' %}
+      	<div class="item_dwn" onclick="cart_submit(this)">
+          <img src="{{ 'edit.svg' | asset_url }}" alt="download-arrow"/>
+        </div>
+      	{% else %}
+        <div class="item_dwn" onclick="cart_submit(this)">
+          <img src="{{ 'download-arrow.png' | asset_url }}" alt="download-arrow"/>
+        </div>
+      	{% endif %}
+       {% else %}
+      	<div class="item_dwn">
+          <input type="button" name="add" id="AddToCart" value="Sign In" onclick="window.location='https://project-content.com/account/login'" class="btn">
+        </div>
+      {% endif %}
+    </div>
+  </form>
+{% capture customizer%}false{%endcapture%}
+  {% endfor %}
+     <form action="https://project-content.nextledsigns.com/resources/gen_vid_multi.php" method="post" >
+    <div class="download_item">
+      <span></span>
+      <div class="item_title">
+        <div>
+        <div class="title_label">
+          Content Title
+        </div>
+        Download All
+        
+        </div>
+      </div>
+      <div class="matrix">
+        <input type="hidden" class="cart_download_size" value="512" min="26" max="1920" name="width" step="2" placeholder="Width" required="required"/>
+        <span></span>
+        <input type="hidden" class="cart_download_size" value="256" min="26" max="1920" name="height" step="2" placeholder="Height" required="required"/>
+      </div>
+      <div class="item_ext">
+        <select name="file_ext" class="file_ext">
+          <option value=".mp4" selected="selected">.mp4</option>
+          <option value=".mpg" >.mpg</option>
+          <option value=".avi" >.avi</option>
+          {% if customizer == 'true' %}
+          {% else %}
+          <option value=".jpg" >.jpg</option>
+          {%endif%}
+        </select>
+        <input type="hidden" name="mode"/>
+        {% for item in cart.items %}
+        <input type="hidden" name="handle[]" value="{{item.variant.sku}}" />
+        {% endfor %}
+        <input type="hidden" name="id" value="{{ customer.id }}" />
+      </div>
+      {% if customer %}
+      	{% if customizer == 'true' %}
+      	<div class="item_dwn" onclick="cart_submit(this)">
+          <img src="{{ 'edit.svg' | asset_url }}" alt="download-arrow"/>
+        </div>
+      	{% else %}
+        <div class="item_dwn" onclick="cart_submit(this)">
+          <img src="{{ 'download-arrow.png' | asset_url }}" alt="download-arrow"/>
+        </div>
+      	{% endif %}
+       {% else %}
+      	<div class="item_dwn">
+          <input type="button" name="add" id="AddToCart" value="Sign In" onclick="window.location='https://project-content.com/account/login'" class="btn">
+        </div>
+      {% endif %}
+    </div>
+  </form>
+  </div>
+</div>
+
+<script>
+  function cart_submit(node){
+    node=node.parentNode;
+    
+    if (node.children[3].children[0].value>0&&node.children[3].children[2].value>0){
+      var file_ext=node.children[4].children[0].value;
+      if (file_ext=='.jpg'){
+        node.children[4].children[1].value="static"
+      }
+      else {
+        node.children[4].children[1].value="animated"
+      }
+      node=node.parentNode;
+      node.submit();
+    }
+    else {
+       alert("Invalid Pixel Matrix");
+    }
+  }
+</script>
+	
+
+
+

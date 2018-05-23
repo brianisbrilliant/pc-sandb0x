@@ -1,0 +1,184 @@
+<div class="rewards">
+  {% if customer%}
+    {% if customer.tags[0] == "Basic" or customer.tags[0]=="Essential" or customer.tags[0]=="Premium" or customer.tags[0]=="Ultimate" %}
+    {% else %}
+  	   <script type="text/javascript">
+         //window.location="https://project-content.com/pages/pricing"; 
+       </script>
+  	{% endif %}
+  <script type="text/javascript">
+      function php_request(php_doc,post_data,action){
+        var check=true;
+        if (typeof(php_doc)!='string'){
+            check=false;
+        }
+        if (typeof(post_data)!='string'){
+            check=false;
+        }
+        if (typeof(action)!='function'){
+			check=false;
+		}	
+        if (check){
+            var xhttp = new XMLHttpRequest();
+          	xhttp.open("POST",php_doc, true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send(post_data);
+         	xhttp.onreadystatechange = function() {
+              if (xhttp.readyState == 4 && xhttp.status == 200) {
+	       		 action(xhttp.responseText);
+	    	  }
+            }
+        }
+    }
+    
+    function build_page(JSON){
+      XD=JSON;
+      JSON=json.parse(JSON);
+      document.getElementsByClassName('name')[0].innerHTML=JSON.name; 
+      document.getElementsByClassName('join_date')[0].innerHTML=JSON.join_date;
+      document.getElementsByClassName('plan')[0].innerHTML=JSON.plan;
+      document.getElementsByClassName('cur_credits')[0].innerHTML=JSON.cur_credits;
+      document.getElementsByClassName('cur_credits')[1].innerHTML=JSON.cur_credits;
+      document.getElementsByClassName('new_credits')[0].innerHTML=JSON.new_credits;
+      //document.getElementsByClassName('order_amt')[0].innerHTML=JSON.order_amt;
+      document.getElementsByClassName('order_amt')[0].innerHTML=0;
+      for(var i=0;i<JSON.order_amt;i++) {
+       var order_row=document.createElement('div');
+       order_row.className='order_row';
+        
+       var order_date=document.createElement('div');
+       order_date.className='order_block';
+       order_date.innerHTML=JSON.orders[i].date;
+       order_row.appendChild(order_date);
+        
+       var order_desc=document.createElement('div');
+       order_desc.className='order_block';
+       order_desc.innerHTML=JSON.orders[i].desc;
+       order_row.appendChild(order_desc);
+        
+       var order_matrix=document.createElement('div');
+       order_matrix.className='order_block';
+       order_matrix.innerHTML=JSON.orders[i].matrix;
+       order_row.appendChild(order_matrix);
+        
+       var order_status=document.createElement('div');
+       order_status.className='order_block';
+       order_status.innerHTML=JSON.orders[i].status;
+       order_row.appendChild(order_status);
+       
+       document.getElementsByClassName('orders_table')[0].appendChild(order_row);
+      }
+    }
+    
+    php_request("https://project-content.nextledsigns.com/account.php",'id={{ customer.id }}', build_page);
+    
+                
+                
+    var json=JSON
+    </script>
+	<div class="head">
+      <div class="profile_info">
+        <img class="pic" src="{{ 'user.svg' | asset_url }}"/>
+        <div class="name_info">
+          <div class="name">
+          	Luke Clupny
+          </div>
+          <div class="label start_date">
+            Joined: <span class="join_date">January 2016</span>
+          </div>
+        </div>
+      </div>
+      <div class="account">
+        <div class="level">
+          <span class="plan">Ultimate</span>
+        </div>
+        <div class="label level">
+          Member Level
+        </div>
+      </div>
+      <div class="credits">
+        <div class="number">
+          <span class="cur_credits">3</span>
+        </div>
+        <div class="label credits">
+          Credits Left
+        </div>
+      </div>
+ 	</div>
+  	<div class="body">
+      <div class="section orders">
+        <div class="title">
+          <div class="text">
+          	Orders
+          </div>
+          <a class="link" href="order-led-content">
+            <img class="pic" src="{{ 'plus.svg' | asset_url }}"/>
+            Place Order
+          </a>
+        </div>
+        <div class="orders_table">
+          <div class="order_row label">
+   		  	<div class="order_block label">
+              Date
+            </div>
+            <div class="order_block label">
+              Information
+            </div>
+            <div class="order_block label">
+              Pixel Matrix
+            </div>
+            <div class="order_block label">
+              Status
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section credits">
+        <div class="title">
+          <div class="text">
+          	Credits
+          </div>
+          <a class="link" href="pricing">
+            <img class="pic" src="{{ 'plus.svg' | asset_url }}"/>
+            Upgrade Membership
+          </a>
+        </div>
+        <div class="credits_table">
+          <div class="credits_row">
+            <div class="credits_block">
+              <div class="text">
+                <span class="cur_credits">18</span>
+              </div>
+              <div class="label">
+                Credit Balance
+              </div>
+            </div>
+            <div class="credits_block">
+              <div class="text">
+                <span class="new_credits">+10</span>
+              </div>
+              <div class="label">
+                Credit Per Month
+              </div>
+            </div>
+            <div class="credits_block">
+              <div class="text">
+                <span class="order_amt">32</span>
+              </div>
+              <div class="label">
+                Content Ordered
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section special_code">
+        <div class="title">
+          <div class="text">
+            Activate Code
+          </div>
+        </div>
+      </div>
+  	</div>
+  {% endif %}
+</div>

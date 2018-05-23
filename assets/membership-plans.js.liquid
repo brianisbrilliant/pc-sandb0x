@@ -1,0 +1,593 @@
+function gup( name, url ) {
+    if (!url) url = location.href;
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\?&]"+name+"=([^&#]*)";
+    var regex = new RegExp( regexS );
+    var results = regex.exec( url );
+    return results == null ? null : results[1];
+}
+
+var mess=gup('mess');
+if (mess != null){
+  mess=mess.replace(/\%20/g," ");
+  alert(mess);
+}
+
+function popup_close(){
+  document.getElementsByClassName("popup zero")[0].style.display="none";
+  document.getElementsByClassName("popup one")[0].style.display="none";
+  document.getElementsByClassName("popup two")[0].style.display="none";
+  document.getElementsByClassName("popup three")[0].style.display="none";
+  document.getElementsByClassName("rte")[0].style.filter="none";
+  document.getElementsByClassName("filter")[0].style.display="none";
+  document.getElementsByClassName("popup_controls")[0].style.display="none";
+}
+
+function popup_0(plan){
+  document.getElementsByClassName("rte")[0].style.filter="blur(20px)";
+  document.getElementsByClassName("popup zero")[0].style.display="flex";
+  document.getElementsByClassName("popup one")[0].style.display="none";
+  document.getElementsByClassName("popup two")[0].style.display="none";
+  document.getElementsByClassName("popup three")[0].style.display="none";
+  document.getElementsByClassName("filter")[0].style.display="flex";
+  document.getElementsByClassName("popup_controls")[0].style.display="flex";
+  document.getElementById("popup_next").style.opacity='1';
+  document.getElementById("popup_prev").style.opacity='.2';
+  document.getElementById("popup_prev").style.cursor="default";
+  document.getElementById("plan_id").value=plan;
+  if (plan == 0){
+    mem="Nextled" 
+  }
+  if (plan == 1){
+    mem="Essential"
+  }
+  if (plan == 2){
+    mem="Premium"
+  }
+  if (plan == 3){
+    mem="Ultimate"
+  }
+  if (plan == 4){
+    mem="Base" 
+  }
+  if (plan == 5){
+    mem="Presto" 
+  }
+  if (plan == 5){
+    mem="Presto Unlimited" 
+  }
+  else {
+    if (document.getElementById('popup_two_icon')){
+       elem=document.getElementById('popup_two_icon');
+      elem.parentNode.removeChild(elem);
+    }
+  }
+  for(i=0;i<document.getElementsByClassName("level_name").length;i++){
+    document.getElementsByClassName("level_name")[i].innerHTML=mem+" Member";
+  }
+  document.getElementById("popup_next").onclick=function(){popup_1(plan)};
+  document.getElementById("popup_prev").onclick="";
+  document.getElementsByClassName('popup_func')[0].onclick=function(){popup_1(plan)};
+  document.getElementsByClassName('popup_func')[1].onclick=function(){popup_2(plan)};
+  document.getElementsByClassName('popup_func')[2].onclick=function(){popup_3(plan)};
+  document.getElementsByClassName('popup_func_prv')[0].onclick=function(){popup_0(plan)};
+  document.getElementsByClassName('popup_func_prv')[1].onclick=function(){popup_1(plan)};
+  document.getElementsByClassName('popup_func_prv')[2].onclick=function(){popup_2(plan)};
+  document.getElementsByClassName('popup_plan_submit')[0].onclick=function(){popup_plan_submit(plan)};
+  sec_zero=document.getElementsByClassName('progress_section zero');
+  sec_one=document.getElementsByClassName('progress_section one');
+  sec_two=document.getElementsByClassName('progress_section two');
+  sec_three=document.getElementsByClassName('progress_section three');
+  for(i=0;i<sec_one.length;i++){
+    sec_zero[i].addEventListener("click",function(){popup_0(plan)});
+   	sec_one[i].addEventListener("click",function(){popup_1(plan)});
+    sec_two[i].addEventListener("click",function(){popup_2(plan)});
+    sec_three[i].addEventListener("click",function(){popup_3(plan)});
+  } 
+} 
+
+function popup_1(plan){
+  document.getElementsByClassName("popup zero")[0].style.display="none";
+  document.getElementsByClassName("popup one")[0].style.display="flex";
+  document.getElementsByClassName("popup two")[0].style.display="none";
+  document.getElementsByClassName("popup three")[0].style.display="none";
+  document.getElementById("popup_next").style.opacity='1';
+  document.getElementById("popup_prev").style.opacity='1';
+  document.getElementById("popup_next").onclick=function(){popup_2(plan)};
+  document.getElementById("popup_prev").onclick=function(){popup_0(plan)};
+  document.getElementById("popup_prev").style.cursor="pointer";
+  document.getElementById("popup_next").style.cursor="pointer";
+}
+
+function popup_2(plan){
+  document.getElementsByClassName("popup zero")[0].style.display="none";
+  document.getElementsByClassName("popup one")[0].style.display="none";
+  document.getElementsByClassName("popup two")[0].style.display="flex";
+  document.getElementsByClassName("popup three")[0].style.display="none";
+  document.getElementById("popup_next").style.opacity='1';
+  document.getElementById("popup_prev").style.opacity='1';
+  document.getElementById("popup_next").onclick=function(){popup_3(plan)};
+  document.getElementById("popup_prev").onclick=function(){popup_1(plan)};
+  document.getElementById("popup_prev").style.cursor="pointer";
+  document.getElementById("popup_next").style.cursor="pointer";
+}
+
+function popup_3(plan){
+  document.getElementsByClassName("popup zero")[0].style.display="none";
+  document.getElementsByClassName("popup one")[0].style.display="none";
+  document.getElementsByClassName("popup two")[0].style.display="none";
+  document.getElementsByClassName("popup three")[0].style.display="flex";
+  document.getElementById("popup_next").style.opacity='.1';
+  document.getElementById("popup_prev").style.opacity='1';
+  document.getElementById("popup_prev").onclick=function(){popup_2(plan)};
+  document.getElementById("popup_next").onclick="";
+  document.getElementById("popup_next").style.cursor="default";
+  addresses_loc=document.getElementsByClassName("loc_loc");
+  addresses_mat=document.getElementsByClassName("loc_matrix");
+  address_num=addresses_loc.length-1;
+  var err;
+  if (!login_check()){
+    popup_0(plan);
+  }
+  else if (address_num==0){
+    popup_1(plan);
+    alert("Please input at least one sign location");
+  }
+  else if (!error_check()){
+    popup_2(plan);
+  }
+  sub_text='Content Library<br/>Custom Content - ';
+  if (plan==0){
+    mem_plan='Nextled';
+    plan_price=0
+    add_signs=(address_num-1)*0;
+    price_raw=0
+    sub_text+='1 '
+  }
+  if (plan==1){
+    mem_plan='Essential';
+    plan_price=49.99
+    add_signs=(address_num-1)*10;
+    price_raw=4999+(address_num-1)*1000
+    sub_text+='1 '
+  }
+  if (plan==2){
+    mem_plan='Premium';
+    plan_price=99.99
+    add_signs=(address_num-1)*15;
+    price_raw=9999+(address_num-1)*1500
+    sub_text+='2 '
+  }
+  if (plan==3){
+    mem_plan='Ultimate';
+    plan_price=249.99
+    add_signs=(address_num-1)*50;
+    price_raw=24999+(address_num-1)*5000
+    sub_text+='Unlimited '
+  }
+  if (plan==4){
+    mem_plan='Base';
+    plan_price=3.99;
+    add_signs=(address_num-1)*00;
+    price_raw=399+(address_num-1)*0000
+    sub_text+='0 '
+  }
+  if (plan==5){
+    mem_plan='Presto';
+    plan_price=9.99;
+    add_signs=(address_num-1)*2;
+    price_raw=999+(address_num-1)*200
+    sub_text+='0 '
+  }
+  if (plan==6){
+    mem_plan='Presto Unlimited';
+    plan_price=19.99;
+    add_signs=(address_num-1)*05;
+    price_raw=1999+(address_num-1)*0500
+    sub_text+='0 '
+  }
+  sub_text+='per month'
+  price=price_raw/100;
+  document.getElementsByClassName("sub_text")[0].innerHTML=sub_text
+  document.getElementsByClassName("sub_text")[1].innerHTML="Total number of signs: "+address_num;
+  elem=document.getElementsByClassName("plan_price");
+  for(i=0;i<elem.length;i++){
+    elem[i].innerHTML=plan_price;
+  }
+  elem=document.getElementsByClassName("mem_plan");
+  for(i=0;i<elem.length;i++){
+    elem[i].innerHTML=mem_plan;
+  }
+  elem=document.getElementsByClassName("add_signs");
+  for(i=0;i<elem.length;i++){
+    elem[i].innerHTML=add_signs;
+  }
+  elem=document.getElementsByClassName("price");
+  for(i=0;i<elem.length;i++){
+    elem[i].innerHTML=price;
+  }
+}
+
+function find_last_node(node){
+    if (!(!node.lastChild)){
+      return find_last_node(node.lastChild);
+    }
+    else {
+      return node;
+    }
+  }
+  
+function get_elements_by_class(node,name){
+    array_out=[];
+    node_end=node;
+    while (node!=find_last_node(node_end)){
+      if (node.className==name){
+        array_out.push(node);
+      }
+      if (node.hasChildNodes()){
+        node=node.firstChild;
+      }
+      else  {
+        while (!node.nextSibling){
+          node=node.parentNode;
+        }
+        node=node.nextSibling;
+      }
+    }
+    return array_out;
+   }
+
+function get_elements_by_name(node,name){
+    array_out=[];
+    node_end=node;
+    while (node!=find_last_node(node_end)){
+      if (node.name==name){
+        array_out.push(node);
+      }
+      if (node.hasChildNodes()){
+        node=node.firstChild;
+      }
+      else  {
+        while (!node.nextSibling){
+          node=node.parentNode;
+        }
+        node=node.nextSibling;
+      }
+    }
+    return array_out;
+   }
+
+function add_loc(){
+  err='';
+  if (sign_error_check()){
+    popup_one=document.getElementsByClassName("popup one")[0];
+    boxes=get_elements_by_class(popup_one,"popup_txtbox");
+    manufacturer=get_elements_by_name(popup_one,"maufacturer[]");
+    pitch=get_elements_by_name(popup_one,"pitch[]");
+    matrix=get_elements_by_name(popup_one,"matrix[]");
+    install=get_elements_by_name(popup_one,"install[]");
+    loc_location=get_elements_by_name(popup_one,"location[]");
+    loc_address=document.getElementById('loc_address');
+    loc_city=document.getElementById('loc_city');
+    loc_state=document.getElementById('loc_state');
+    loc_zip=document.getElementById('loc_zip');
+    loc_location[0].value=loc_address.value+' '+loc_city.value+' '+loc_state.value+' '+loc_zip.value;
+    loc_address.value=loc_city.value=loc_state.value=loc_zip.value="";
+    rht_clm=get_elements_by_class(popup_one,"rht_column");
+    loc_row=document.createElement('div');
+    loc_row.className="loc_row";
+    loc_loc=document.createElement('div');
+    loc_loc.className="loc_loc";
+    loc_loc.innerHTML=loc_location[0].value;
+    loc_row.appendChild(loc_loc);
+    loc_matrix=document.createElement('div');
+    loc_matrix.className="loc_matrix";
+    loc_matrix.innerHTML=matrix[0].value;
+    loc_row.appendChild(loc_matrix);
+    loc_x=document.createElement('div');
+    loc_x.className="loc_x";
+    loc_x.innerHTML="x";
+    loc_x.addEventListener("click",function(){delete_loc(this)});
+    loc_row.appendChild(loc_x);
+    rht_clm[0].appendChild(loc_row);
+    for (i=0;i<boxes.length;i++){
+      if (boxes[i].hasAttribute('name')){
+        input=document.createElement('input');
+        input.type="hidden";
+        input.className="popup_txtbox_loc"
+        input.value=boxes[i].value
+        input.name=boxes[i].name
+        if (boxes[i].tagName!='select'){
+          boxes[i].value="";
+        }
+        parent=boxes[i].parentNode;
+        sibling=boxes[i].nextSibling;
+        parent.insertBefore(input,sibling);
+      }
+    }
+  }
+  else {
+     alert(err);
+  }
+}
+function check_input_pattern(node){
+  var check=true 
+  if (typeof(node.value)!='undefined'){
+    if ((node.value).match(RegExp(node.pattern),'g') !== null){
+   	  if((node.value).match(RegExp(node.pattern),'g')[0]!=node.value){
+       check=false;
+      }
+    }
+    else {
+	  check=false;
+    }
+  }
+  else {
+   	check=false; 
+  }
+  return check;
+}
+
+function sign_error_check(){
+  check=true;
+  var str="Errors: \n";
+  popup_one=document.getElementsByClassName("popup one")[0];
+  var source=[
+    get_elements_by_name(popup_one,"pitch[]")[0],
+    get_elements_by_name(popup_one,"matrix[]")[0],
+    get_elements_by_name(popup_one,"install[]")[0],
+    document.getElementById('loc_address'),
+   	document.getElementById('loc_city'),
+    document.getElementById('loc_state'),
+    document.getElementById('loc_zip')
+  ]
+    
+  var message=[
+    "Invalid Pitch\n",
+    "Invalid Pixel Matrix\n",
+    "Invalid Install Date\n",
+    "Invalid Address\n",
+    "Invalid City\n",
+    "Invalid State\n",
+   	"Invalid Zip\n"
+  ]
+    
+  for (var i=0;i<source.length;i++){
+    if (!check_input_pattern(source[i])){
+       check=false;
+       str+=message[i];
+    }
+  }
+
+  
+  var loc_state=document.getElementById('loc_state');
+  if (Object.getOwnPropertyNames(state_ref).indexOf(loc_state.value.toUpperCase())==-1){
+    check=false;str+="Invalid State\n";
+  }
+  loc_zip=document.getElementById('loc_zip');
+  err=str;
+  return check;
+}
+
+function delete_loc(node){
+  node=node.parentNode;
+  address=node.childNodes[0].innerHTML;
+  node.parentNode.removeChild(node);
+  popup_one=document.getElementsByClassName("popup one")[0];
+  manufacturer=get_elements_by_name(popup_one,"maufacturer[]");
+  pitch=get_elements_by_name(popup_one,"pitch[]");
+  matrix=get_elements_by_name(popup_one,"matrix[]");
+  install=get_elements_by_name(popup_one,"install[]");
+  loc_location=get_elements_by_name(popup_one,"location[]");
+  for(i=1;i<loc_location.length;i++){
+    if (address==loc_location[i].value){
+      n=i;
+    }
+  }
+  manufacturer[n].parentNode.removeChild(manufacturer[n]);
+  pitch[n].parentNode.removeChild(pitch[n]);
+  matrix[n].parentNode.removeChild(matrix[n]);
+  install[n].parentNode.removeChild(install[n]);
+  loc_location[n].parentNode.removeChild(loc_location[n]);
+}
+
+function popup_plan_submit(plan){
+  popup_one=document.getElementsByClassName("popup one")[0];
+  manufacturer=get_elements_by_name(popup_one,"maufacturer[]");
+  pitch=get_elements_by_name(popup_one,"pitch[]");
+  matrix=get_elements_by_name(popup_one,"matrix[]");
+  install=get_elements_by_name(popup_one,"install[]");
+  loc_location=get_elements_by_name(popup_one,"location[]");
+  form_one=[manufacturer,pitch,matrix,install,loc_location];
+  string="";
+  for (i=0;i<form_one.length;i++){
+    switch(i){
+      case 0:
+        title='manufacturer';
+        break;
+      case 1:
+        title='pitch';
+        break;
+      case 2:
+        title='matrix';
+        break;
+      case 3:
+        title='install';
+        break;
+      case 4:
+        title='loc_location';
+        break;  
+    }
+    string.concat("::"+title+"=");
+    for (n=0;n<form_one[i].length;n++){
+      string.concat('"'+form_one[i][n]+'";');
+    }
+  }
+  document.getElementById('submit_data').submit();
+}
+
+function error_check(err){
+  check=true;
+  var str="Errors: \n";
+  
+  popup_two=document.getElementsByClassName("popup two")[0];
+  var source=[
+    get_elements_by_name(popup_two,"country")[0],
+    get_elements_by_name(popup_two,"company")[0],
+	get_elements_by_name(popup_two,"country")[0],
+    get_elements_by_name(popup_two,"address")[0],
+    get_elements_by_name(popup_two,"city")[0],
+    get_elements_by_name(popup_two,"zip_code")[0]
+  ]
+    
+  var message=[
+    "Invalid Country\n",
+    "Invalid Company Name\n",
+    "Invalid Country\n",
+    "Invalid Address\n",
+    "Invalid City\n",
+    "Invalid Address\n"
+  ]
+    
+  for (var i=0;i<source.length;i++){
+    if (!check_input_pattern(source[i])){
+       check=false;
+       str+=message[i];
+    }
+  }
+  
+  var state=get_elements_by_name(popup_two,"state")[0];
+  if (!check_input_pattern(state)){check=false;str+="Invalid State\n"}
+  else if (Object.getOwnPropertyNames(state_ref).indexOf(state.value.toUpperCase())==-1){
+    check=false;str+="Invalid State\n";
+  }
+
+  if (!check){
+  	alert(str);
+  }
+  return check;
+}
+
+function login_check(){
+  check=true;
+  var str="Errors: \n";
+  
+  popup_zero=document.getElementsByClassName("popup zero")[0];
+  var source=[
+    get_elements_by_name(popup_zero,"first_name")[0],
+    get_elements_by_name(popup_zero,"last_name")[0],
+    get_elements_by_name(popup_zero,"email")[0]
+  ]
+    
+  var message=[
+    "Invalid First Name\n",
+    "Invalid Last Name\n",
+    "Invalid Email\n"
+  ]
+    
+  for (var i=0;i<source.length;i++){
+    if (!check_input_pattern(source[i])){
+       check=false;
+       str+=message[i];
+    }
+  }
+  
+  pass1=get_elements_by_name(popup_zero,"password")[0].value
+  pass2=get_elements_by_name(popup_zero,"password_confirm")[0].value
+  
+  if (pass1==pass2){
+    if (pass1==''){
+      check=false; 
+      str+='Password can not be null'
+    }
+  }
+  else {
+    check=false; 
+    str+='Passwords do not match'
+  }
+
+  if (!check){
+  	alert(str);
+  }
+  return check;
+}
+
+state_ref={
+    "AL": "Alabama",
+    "AK": "Alaska",
+    "AS": "American Samoa",
+    "AZ": "Arizona",
+    "AR": "Arkansas",
+    "CA": "California",
+    "CO": "Colorado",
+    "CT": "Connecticut",
+    "DE": "Delaware",
+    "DC": "District Of Columbia",
+    "FM": "Federated States Of Micronesia",
+    "FL": "Florida",
+    "GA": "Georgia",
+    "GU": "Guam",
+    "HI": "Hawaii",
+    "ID": "Idaho",
+    "IL": "Illinois",
+    "IN": "Indiana",
+    "IA": "Iowa",
+    "KS": "Kansas",
+    "KY": "Kentucky",
+    "LA": "Louisiana",
+    "ME": "Maine",
+    "MH": "Marshall Islands",
+    "MD": "Maryland",
+    "MA": "Massachusetts",
+    "MI": "Michigan",
+    "MN": "Minnesota",
+    "MS": "Mississippi",
+    "MO": "Missouri",
+    "MT": "Montana",
+    "NE": "Nebraska",
+    "NV": "Nevada",
+    "NH": "New Hampshire",
+    "NJ": "New Jersey",
+    "NM": "New Mexico",
+    "NY": "New York",
+    "NC": "North Carolina",
+    "ND": "North Dakota",
+    "MP": "Northern Mariana Islands",
+    "OH": "Ohio",
+    "OK": "Oklahoma",
+    "OR": "Oregon",
+    "PW": "Palau",
+    "PA": "Pennsylvania",
+    "PR": "Puerto Rico",
+    "RI": "Rhode Island",
+    "SC": "South Carolina",
+    "SD": "South Dakota",
+    "TN": "Tennessee",
+    "TX": "Texas",
+    "UT": "Utah",
+    "VT": "Vermont",
+    "VI": "Virgin Islands",
+    "VA": "Virginia",
+    "WA": "Washington",
+    "WV": "West Virginia",
+    "WI": "Wisconsin",
+    "WY": "Wyoming"
+}
+
+function check_coupon(node) {
+  var val=node.value;
+  if (val==='nxtbase'&&document.getElementsByClassName('level_name')[0].innerHTML==='Essential Member') {
+    node.parentNode.parentNode.parentNode.children[0].children[0].children[0].innerHTML='This Coupon code grants three months of Free essential  and the downgrades the account to the Base plan.';
+    node.parentNode.parentNode.parentNode.children[1].style.display='none';
+    node.parentNode.parentNode.parentNode.children[2].style.display='none';
+    popup_0(0);
+    popup_2(0);
+  }
+  else {
+    node.parentNode.parentNode.parentNode.children[0].children[0].children[0].innerHTML='Credit Card <img src="//cdn.shopify.com/s/files/1/1376/5287/t/9/assets/cards.jpg?17100540797658458297" alt="cards"/>';
+    node.parentNode.parentNode.parentNode.children[1].style.display='flex';
+    node.parentNode.parentNode.parentNode.children[2].style.display='flex';
+    popup_0(1);
+    popup_2(1);
+  }
+}
